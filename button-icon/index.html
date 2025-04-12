@@ -1,0 +1,104 @@
+<html>
+  <title>Anime.js practice</title>
+  <style>
+    body {
+      --bg-1: #212830;
+      --bg-2: #3d444d;
+    }
+
+    .medium {
+      width: 50svw;
+      height: 10svh;
+    }
+
+    .centered {
+      justify-content: center;
+      align-content: center;
+      padding: 2rem;
+      display: flex;
+      margin: 0 auto;
+    }
+
+    .star-icon {
+      color: #e3b342;
+    }
+    .star-icon polygon {
+      transform-box: fill-box;
+      transform-origin: 50% 50%;
+    }
+
+    button {
+      height: fit-content;
+      display: flex;
+      align-items: center;
+      align-content: center;
+      justify-content: center;
+      padding: 0.3rem 1rem;
+      line-height: 0.1rem;
+      gap: 8px;
+    }
+  </style>
+  <body>
+    <section>
+      <div class="medium centered">
+        <button>
+          <svg class="star-icon" width="24px" height="24px" viewBox="0 0 36 36">
+            <g
+              id="start"
+              stroke="none"
+              stroke-width="1"
+              fill="none"
+              fill-rule="evenodd"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polygon
+                stroke="currentColor"
+                stroke-width="3"
+                points="8.75528701 32.6404834 10.3867069 22.2854985 3 15.0120846 13.4003021 13.4259819 18 4 22.5996979 13.4259819 33 15.0120846 25.6132931 22.2175227 27.244713 32.6404834 18 27.7915408"
+              ></polygon>
+            </g>
+          </svg>
+          Star
+        </button>
+      </div>
+    </section>
+  </body>
+  <script type="module">
+    import {
+      animate,
+      utils,
+      createDraggable,
+      createSpring,
+    } from "../lib/anime.esm.min.js";
+
+    let clicked = false;
+
+    const [$starIcon] = utils.$(".star-icon");
+    const [$button] = utils.$("button");
+    const [$starPoly] = utils.$(".star-icon polygon");
+
+    // Animate logo rotation on click
+    const showSparkles = () => {
+      clicked = !clicked;
+      animate($starPoly, {
+        fill: clicked ? "currentColor" : "transparent",
+        ease: "inOut(3)",
+        duration: 1500,
+      });
+
+      animate($starIcon, {
+        scale: [
+          { to: 1.25, ease: "inOut(3)", duration: 200 },
+          { to: 1, ease: createSpring({ stiffness: 300 }) },
+        ],
+        ease: "out(4)",
+        duration: 1500,
+      });
+
+      button.innertText = clicked ? "Starred" : "Star";
+    };
+
+    $button.addEventListener("click", showSparkles);
+  </script>
+</html>
